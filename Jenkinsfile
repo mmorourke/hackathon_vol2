@@ -83,7 +83,7 @@ node {
         sh "sudo docker stop redis-${env.BUILD_NUMBER} webapp-${env.BUILD_NUMBER}"
         sh "sudo docker rm -v redis-${env.BUILD_NUMBER} webapp-${env.BUILD_NUMBER}"
         // remove the volume clone
-        sh "sudo docker volume rm vol_redis-${env.BUILD_NUMBER}"
+        sh "sudo docker volume rm vol_redis_${env.BUILD_NUMBER}"
       }
     } finally {
 
