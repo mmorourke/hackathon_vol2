@@ -16,10 +16,10 @@ node {
 
     stage ("Create Test instance"){
       // clone the docker volume for test purposes
-      sh "sudo docker volume create -d netapp -o from=vol-redis --name vol-redis-${env.BUILD_NUMBER} "
+      sh "sudo docker volume create -d netapp -o from=vol_redis --name vol_redis_${env.BUILD_NUMBER} "
 
       // start the redis with the cloned storage
-	    sh "sudo docker run -d --name redis-${env.BUILD_NUMBER} -v vol-redis-${env.BUILD_NUMBER}:/data redis:3.2.6-alpine redis-server --appendonly yes"
+	    sh "sudo docker run -d --name redis-${env.BUILD_NUMBER} -v vol_redis_${env.BUILD_NUMBER}:/data redis:3.2.6-alpine redis-server --appendonly yes"
 
       // start the application
       sh "sudo docker run -d --name webapp-${env.BUILD_NUMBER} --link redis-${env.BUILD_NUMBER} -p 80 webapp:${env.BUILD_NUMBER} --redis_host=redis-${env.BUILD_NUMBER}"
@@ -83,7 +83,7 @@ node {
         sh "sudo docker stop redis-${env.BUILD_NUMBER} webapp-${env.BUILD_NUMBER}"
         sh "sudo docker rm -v redis-${env.BUILD_NUMBER} webapp-${env.BUILD_NUMBER}"
         // remove the volume clone
-        sh "sudo docker volume rm vol-redis-${env.BUILD_NUMBER}"
+        sh "sudo docker volume rm vol_redis-${env.BUILD_NUMBER}"
       }
     } finally {
 
